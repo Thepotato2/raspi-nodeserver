@@ -1,14 +1,27 @@
 <button id="addBtn">Click to Add</button>
 <p>Count: <span id="counter">0</span></p>
-
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
 <script>
+  
   const btn = document.getElementById('addBtn');
   const display = document.getElementById('counter');
-  
 
-  btn.onclick = async function() {
-    const res = await fetch('/increment')
-    const data = await res.json()
-    display.innerText = data.currentCounter
+  const socket = io("http://192.168.1.166:3000");
+  
+  btn.onclick = function() {
+    // const res = await fetch('/increment')
+    // const data = await res.json()
+    // display.innerText = data.currentCounter
+
+    socket.emit("increment")
   };
+
+  socket.on("connect", () => {
+    console.log("Connected to server!");
+    socket.emit("chat message", "Hello from the browser!");
+  });
+
+  socket.on("increment", (num) => {
+    display.innerText = num.counter
+  });
 </script>   
