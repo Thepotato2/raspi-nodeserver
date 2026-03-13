@@ -3,15 +3,24 @@
 // cd my-server/raspi-nodeserver
 // node app.js
 
-const http = require('http');
-const port = 3000;
+// git commit -a -m "<message>"
+// git push
+// git pull
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello from the Raspberry Pi! also you stink, and you look like a tard\n');
-});
+const express = require('express')
+const app = express()
+const port = 3000
 
-server.listen(port, '0.0.0.0', () => {
-  console.log(`Server running at http://your-pi-ip:${port}/`);
-});
+let counter = 0
+
+app.get('/increment', (req, res) => {
+  counter++
+
+  res.json({currentCounter: counter})
+})
+
+app.use(express.static('public'))
+
+app.listen(port, () => {
+  console.log(`My stoopid app is listening on port ${port}`)
+})
