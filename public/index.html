@@ -1,0 +1,14 @@
+<button id="addBtn">Click to Add</button>
+<p>Count: <span id="counter">0</span></p>
+
+<script>
+  const btn = document.getElementById('addBtn');
+  const display = document.getElementById('counter');
+  
+
+  btn.onclick = async function() {
+    const res = await fetch('/increment')
+    const data = await res.json()
+    display.innerText = data.currentCounter
+  };
+</script>   
